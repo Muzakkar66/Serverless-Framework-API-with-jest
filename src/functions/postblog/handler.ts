@@ -1,24 +1,27 @@
 import 'source-map-support/register';
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { formatJSONResponse } from '@libs/apiGateway';
-import { middyfy } from '@libs/lambda';
+// import * as AWS from 'aws-sdk';
 
-import schema from './schema';
+// const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const handler = async (event) => {
 
   const body = event.body;
-  const blogBody =
-  {
-    recieved: true,
-    ... body
-  };
+
+  const postBlog = {
+    TableName:'blog-post-table',
+    received: true,
+    Item:{
+      ... body
+    }
+
+  }
+  // const data = await dynamodb.put(postBlog).promise()
 
   return formatJSONResponse({
-    // message: `Hello ${event.body.name}, welcome to the exciting Serverless world!`,
-    blogBody,
+    message:"Item successfully added to the DB",
+    postBlog,
   });
 }
 
-export const main = middyfy(handler);
-// module.exports = serverlessConfiguration;
+export const main = handler;
