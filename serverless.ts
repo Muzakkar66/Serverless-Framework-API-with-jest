@@ -4,7 +4,7 @@ import postBlog from '@functions/postblog';
 // import { Server } from 'http';
 const serverlessConfiguration: AWS = {
   
-  service: 'rest-api',
+  service: 'RestAPI',
   frameworkVersion: '2',
   custom: {
     // webpack:{
@@ -29,13 +29,13 @@ const serverlessConfiguration: AWS = {
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
-    region:'eu-west-2',
+    region:'us-east-1',
     iamRoleStatements: 
     [
       {
         Effect:'Allow',
         Action:['dynamodb:PutItem'],
-        Resource:'arn:aws:dynamodb:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}:table/${self:provider.environment.BLOG_TABLE}'
+        Resource:'*'
       }
     ],
     apiGateway: {
@@ -45,7 +45,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      BLOG_TABLE:'blog-table',
+      BLOG_TABLE:'blog-post-table-new',
       AWS_ACCOUNT_ID:'218767131295',
     },
     
@@ -59,20 +59,21 @@ const serverlessConfiguration: AWS = {
       blogTable:{
         Type:"AWS::DynamoDB::Table",
         Properties:{
-          TableName:"blog-post-table",
+          TableName:"blog-post-table-new",
           AttributeDefinitions:[
             {AttributeName:'author', AttributeType:'S'},
-            {AttributeName:'createdAt', AttributeType:'N'}
+            
           ],
           KeySchema:[
             {AttributeName:'author', KeyType:'HASH'},
-            {AttributeName:'createdAt', KeyType:'RANGE'}
+          
           ],
           BillingMode:'PAY_PER_REQUEST',
         },
       }
     }
   }
+  
 };
 
 module.exports = serverlessConfiguration;

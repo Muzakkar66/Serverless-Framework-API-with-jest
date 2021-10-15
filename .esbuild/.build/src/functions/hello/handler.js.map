@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../src/functions/hello/handler.ts", "../../../../../src/libs/apiGateway.ts"],
-  "sourcesContent": ["//import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';\n\nimport { formatJSONResponse } from '@libs/apiGateway';\n// import { middyfy } from '@libs/lambda';\n\n// import schema from './schema';\n\nconst hello = async (event) => {\n  return formatJSONResponse({\n    message: `Hello ${event.body.name}, welcome to the exciting Serverless world!`,\n    event,\n  });\n}\n\nexport const main2 = hello;\n", "import type { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from \"aws-lambda\"\nimport type { FromSchema } from \"json-schema-to-ts\";\n\ntype ValidatedAPIGatewayProxyEvent<S> = Omit<APIGatewayProxyEvent, 'body'> & { body: FromSchema<S> }\nexport type ValidatedEventAPIGatewayProxyEvent<S> = Handler<ValidatedAPIGatewayProxyEvent<S>, APIGatewayProxyResult>\n\nexport const formatJSONResponse = (response: Record<string, unknown>) => {\n  return {\n    statusCode: 200,\n    body: JSON.stringify(response)\n  }\n}\n"],
-  "mappings": ";;;;;;;;;AAAA;AAAA;AAAA;;;ACMO,IAAM,qBAAqB,CAAC,aAAsC;AACvE,SAAO;AAAA,IACL,YAAY;AAAA,IACZ,MAAM,KAAK,UAAU;AAAA;AAAA;;;ADFzB,IAAM,QAAQ,OAAO,UAAU;AAC7B,SAAO,mBAAmB;AAAA,IACxB,SAAS,SAAS,MAAM,KAAK;AAAA,IAC7B;AAAA;AAAA;AAIG,IAAM,QAAQ;",
-  "names": []
-}

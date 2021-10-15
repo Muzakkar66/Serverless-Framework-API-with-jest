@@ -1,27 +1,41 @@
 import 'source-map-support/register';
+import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { formatJSONResponse } from '@libs/apiGateway';
-// import * as AWS from 'aws-sdk';
+import { middyfy } from '@libs/lambda';
+import schema from './schema';
+import * as AWS from 'aws-sdk';
 
-// const dynamodb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-const handler = async (event) => {
-
+const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   const body = event.body;
+  try {
+    const postBlog = {
+      TableName:'blog-post-table-new',
+      
+      Item: {
+        author: body.auther,
+        title: body.title,
+        description: body.description,
+        content: body.content,
+      },
 
-  const postBlog = {
-    TableName:'blog-post-table',
-    received: true,
-    Item:{
-      ... body
-    }
+    };
+    var data = await dynamodb.put(postBlog).promise();
+
+  } catch (error) {
+    return formatJSONResponse({
+      message: "Error",
+      error,
+    });
 
   }
-  // const data = await dynamodb.put(postBlog).promise()
-
   return formatJSONResponse({
-    message:"Item successfully added to the DB",
-    postBlog,
-  });
-}
+    received: true,
+    message: "Success",
+    data,
 
-export const main = handler;
+  });
+
+}
+export const main = middyfy(handler);

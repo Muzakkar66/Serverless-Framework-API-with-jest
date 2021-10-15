@@ -12,6 +12,8 @@
   "dependencies": {
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
+    "aws-cli": "^0.0.2",
+    "aws-config": "^1.4.0",
     "aws-sdk": "^2.1006.0",
     "ts-init": "^2.2.0"
   },
