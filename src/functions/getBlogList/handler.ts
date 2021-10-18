@@ -4,25 +4,17 @@ import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 import schema from './schema';
 import * as AWS from 'aws-sdk';
-
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
-  const body = event.body;
+  if(event){}
   try {
-    const postBlog = {
-      TableName:'blog-post-table-new',
-      
-      Item: {
-        auther: body.auther,
-        title: body.title,
-        description: body.description,
-        content: body.content,
-      },
+    const GetBlogList = {
+      TableName: 'blog-post-table-new',
+    }
+    var data = await dynamodb.scan(GetBlogList).promise();
 
-    };
-   var data = await dynamodb.put(postBlog).promise();
-
+    
   } catch (error) {
     return formatJSONResponse({
       message: "Error",

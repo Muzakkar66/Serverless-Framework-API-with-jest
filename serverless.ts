@@ -1,16 +1,14 @@
 import type { AWS } from '@serverless/typescript';
 import hello from '@functions/hello';
 import postBlog from '@functions/postblog';
-// import { Server } from 'http';
+import GetBlogList from '@functions/getBlogList';
+import updateBlog from '@functions/updateBlog';
+import deleteBlog from '@functions/deleteBlog';
 const serverlessConfiguration: AWS = {
   
-  service: 'RestAPI',
+  service: 'CRUD-API',
   frameworkVersion: '2',
   custom: {
-    // webpack:{
-    //   webpackConfig: './webpack.config.js',
-    //   includeModules: true,
-    // },
     esbuild: {
       bundle: true,
       minify: false,
@@ -34,7 +32,13 @@ const serverlessConfiguration: AWS = {
     [
       {
         Effect:'Allow',
-        Action:['dynamodb:PutItem'],
+        Action:[
+          'dynamodb:PutItem',
+          'dynamodb:Scan',
+          'dynamodb:UpdateItem',
+          'dynamodb:DeleteItem'
+
+        ],
         Resource:'*'
       }
     ],
@@ -52,7 +56,13 @@ const serverlessConfiguration: AWS = {
     lambdaHashingVersion: '20201221',
   },
   // import the function via paths
-  functions: { hello, postBlog },
+  functions: { 
+        hello,
+        postBlog,
+        GetBlogList,
+        updateBlog,
+        deleteBlog
+  },
 
   resources:{
     Resources:{
@@ -61,11 +71,11 @@ const serverlessConfiguration: AWS = {
         Properties:{
           TableName:"blog-post-table-new",
           AttributeDefinitions:[
-            {AttributeName:'author', AttributeType:'S'},
+            {AttributeName:'auther', AttributeType:'S'},
             
           ],
           KeySchema:[
-            {AttributeName:'author', KeyType:'HASH'},
+            {AttributeName:'auther', KeyType:'HASH'},
           
           ],
           BillingMode:'PAY_PER_REQUEST',
