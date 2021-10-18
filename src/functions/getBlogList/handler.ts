@@ -14,7 +14,7 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event)
     }
     var data = await dynamodb.scan(GetBlogList).promise();
 
-    
+
   } catch (error) {
     return formatJSONResponse({
       message: "Error",
@@ -30,4 +30,4 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event)
   });
 
 }
-export const main = middyfy(handler);
+export const getBlogListMAIN = middyfy(handler);

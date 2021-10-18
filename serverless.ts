@@ -1,5 +1,4 @@
 import type { AWS } from '@serverless/typescript';
-import hello from '@functions/hello';
 import postBlog from '@functions/postblog';
 import GetBlogList from '@functions/getBlogList';
 import updateBlog from '@functions/updateBlog';
@@ -57,7 +56,6 @@ const serverlessConfiguration: AWS = {
   },
   // import the function via paths
   functions: { 
-        hello,
         postBlog,
         GetBlogList,
         updateBlog,

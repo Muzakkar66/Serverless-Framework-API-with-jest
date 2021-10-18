@@ -1,17 +1,20 @@
 import {main} from '../src/functions/postblog/handler'
-import {main2} from '../src/functions/hello/handler'
+import { getBlogListMAIN } from '../src/functions/getBlogList/handler'
 
-describe("testing hello", ()=> {
+describe("Blog CRUD operation", ()=> {
 
-    //first endpoints test
-    test("hello API",async  ()=>{
+    //Get blog list endpoint test
+    test("Get blog list endpoint",async  ()=>{
         const request =  {
             body:{
-                name: "My name is Muzakkar ",
+                auther: "Pasha",
+                title: "GEt My name is Muzakkar ",
+                description: "My name is Muzakkar ",
+                content: "Get List of blogs",
             }
         }
 
-        const response = await main2(request) 
+        const response = await getBlogListMAIN(request, context, callback() ) 
         expect(response.statusCode).toBe(200)
     })
 
