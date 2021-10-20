@@ -20,13 +20,14 @@ describe("Blog CRUD operation", ()=> {
         }
         await PostBlogMAIN(request, context, function(error, data){
                 if(error){}
-                console.log(data)
+                // console.log(data)
                 const resposne = JSON.parse(JSON.stringify(data))
                 expect(resposne.statusCode).toBe(200)
         }) 
     })
     //Scan blog list endpoint test
     test("Scan blog list endpoint",async  ()=>{
+        
         let context: Context = {} as any
             const body = {
                 auther: "JS ",
@@ -39,10 +40,10 @@ describe("Blog CRUD operation", ()=> {
             }
         await getBlogListMAIN(request, context, function(error, data){
                 if(error){}
-                console.log(data)
+                // console.log(data)
                 const resposne = JSON.parse(JSON.stringify(data))
                 expect(resposne.statusCode).toBe(200)
-        }) 
+        }).then()
     })
 
         // update post endpoints test
@@ -59,7 +60,7 @@ describe("Blog CRUD operation", ()=> {
         }
         await updateBlogMAIN(request, context, function(error, data){
                 if(error){}
-                console.log(data)
+                // console.log(data)
                 const resposne = JSON.parse(JSON.stringify(data))
                 expect(resposne.statusCode).toBe(200)
             }) 
@@ -75,7 +76,7 @@ describe("Blog CRUD operation", ()=> {
         }
         await deleteBlogMAIN(request, context, function(error, data){
                 if(error){}
-                console.log(data)
+                // console.log(data)
                 const resposne = JSON.parse(JSON.stringify(data))
                 expect(resposne.statusCode).toBe(200)
             }) 
