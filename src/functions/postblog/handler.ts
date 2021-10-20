@@ -1,13 +1,13 @@
 import 'source-map-support/register';
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
-import schema from './schema';
 import * as AWS from 'aws-sdk';
-
+import { Callback, Context } from 'aws-lambda';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const handler = async (event, context: Context, callback: Callback) => {
+  if(event && context){}
+  var response: any = {}
   const body = event.body;
   try {
     const postBlog = {
@@ -24,18 +24,18 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event)
    var data = await dynamodb.put(postBlog).promise();
 
   } catch (error) {
-    return formatJSONResponse({
+    response = formatJSONResponse({
       message: "Error",
       error,
     });
 
   }
-  return formatJSONResponse({
+  response = formatJSONResponse({
     received: true,
     message: "Success",
     data,
 
   });
-
+  callback(null, response)
 }
-export const main = middyfy(handler);
+export const PostBlogMAIN = middyfy(handler);

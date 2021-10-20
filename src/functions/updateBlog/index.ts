@@ -2,7 +2,7 @@
 import { handlerPath } from '@libs/handlerResolver';
 
 export default {
-  handler: `${handlerPath(__dirname)}/handler.main`,
+  handler: `${handlerPath(__dirname)}/handler.updateBlogMAIN`,
   events: [
     {
       http: {

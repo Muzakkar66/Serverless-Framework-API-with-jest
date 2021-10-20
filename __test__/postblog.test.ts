@@ -1,34 +1,84 @@
-import {main} from '../src/functions/postblog/handler'
+import {  Context } from 'aws-lambda'
 import { getBlogListMAIN } from '../src/functions/getBlogList/handler'
+import { PostBlogMAIN } from '../src/functions/postblog/handler'
+import { updateBlogMAIN } from '../src/functions/updateBlog/handler'
+import { deleteBlogMAIN } from '../src/functions/deleteBlog/handler'
 
 describe("Blog CRUD operation", ()=> {
 
-    //Get blog list endpoint test
-    test("Get blog list endpoint",async  ()=>{
-        const request =  {
-            body:{
-                auther: "Pasha",
-                title: "GEt My name is Muzakkar ",
-                description: "My name is Muzakkar ",
-                content: "Get List of blogs",
-            }
+    //Post blog  endpoint test
+    test("Post blog endpoint",async  ()=>{
+         let context: Context = {} as any
+        const body = {
+            auther: "Pasha ",
+            title: "Scan My name is Muzakkar ",
+            description: "Muzakkar ",
+            // content: "Scan List of blogs",
         }
-
-        const response = await getBlogListMAIN(request, context, callback() ) 
-        expect(response.statusCode).toBe(200)
+        const request =  {
+            body: JSON.stringify(body)
+        }
+        await PostBlogMAIN(request, context, function(error, data){
+                if(error){}
+                console.log(data)
+                const resposne = JSON.parse(JSON.stringify(data))
+                expect(resposne.statusCode).toBe(200)
+        }) 
+    })
+    //Scan blog list endpoint test
+    test("Scan blog list endpoint",async  ()=>{
+        let context: Context = {} as any
+            const body = {
+                auther: "JS ",
+                title: "Scan My name is Muzakkar ",
+                description: "Muzakkar ",
+                content: "Scan List of blogs",
+            }
+            const request =  {
+                body: JSON.stringify(body)
+            }
+        await getBlogListMAIN(request, context, function(error, data){
+                if(error){}
+                console.log(data)
+                const resposne = JSON.parse(JSON.stringify(data))
+                expect(resposne.statusCode).toBe(200)
+        }) 
     })
 
-    // second endpoints test
-    test("put blog",async  ()=>{
-        const request =  {
-            body:{
-                auther: "Muzakkar",
-                // title: "Developer",
-                // description: "My name is Muzakkar",
-                // content: "Rest Api"
-            }
+        // update post endpoints test
+        test("Update blog endpoint",async  ()=>{
+        let context: Context = {} as any
+        const body = {
+            auther: "JS ",
+            title: "Scan My name is Muzakkar ",
+            description: "Muzakkar ",
+            content: "Scan List of blogs",
         }
-        const response = await main(request) 
-        expect(response.statusCode).toBe(200)
-    })
+        const request =  {
+            body: JSON.stringify(body)
+        }
+        await updateBlogMAIN(request, context, function(error, data){
+                if(error){}
+                console.log(data)
+                const resposne = JSON.parse(JSON.stringify(data))
+                expect(resposne.statusCode).toBe(200)
+            }) 
+        }) 
+        // Delete post endpoint test
+        test("Delete blog endpoint",async  ()=>{
+        let context: Context = {} as any
+        const body = {
+            auther: "JS ",
+        }
+        const request =  {
+            body: JSON.stringify(body)
+        }
+        await deleteBlogMAIN(request, context, function(error, data){
+                if(error){}
+                console.log(data)
+                const resposne = JSON.parse(JSON.stringify(data))
+                expect(resposne.statusCode).toBe(200)
+            }) 
+        }) 
+    
 })
