@@ -43,7 +43,7 @@ describe("Blog CRUD operation", ()=> {
                 // console.log(data)
                 const resposne = JSON.parse(JSON.stringify(data))
                 expect(resposne.statusCode).toBe(200)
-        }).then()
+        })
     })
 
         // update post endpoints test
